@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureMLDemo", "AzureMLDemo\AzureMLDemo.csproj", "{A73C36D7-2589-4D7D-8251-A069D51BED1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|ARM.Build.0 = Debug|ARM
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|ARM.Deploy.0 = Debug|ARM
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|x64.ActiveCfg = Debug|x64
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|x64.Build.0 = Debug|x64
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|x64.Deploy.0 = Debug|x64
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|x86.ActiveCfg = Debug|x86
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|x86.Build.0 = Debug|x86
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Debug|x86.Deploy.0 = Debug|x86
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|ARM.ActiveCfg = Release|ARM
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|ARM.Build.0 = Release|ARM
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|ARM.Deploy.0 = Release|ARM
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|x64.ActiveCfg = Release|x64
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|x64.Build.0 = Release|x64
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|x64.Deploy.0 = Release|x64
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|x86.ActiveCfg = Release|x86
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|x86.Build.0 = Release|x86
+		{A73C36D7-2589-4D7D-8251-A069D51BED1B}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://evgri.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AzureMLDemo\\AzureMLDemo.csproj
+		SccProjectName1 = AzureMLDemo
+		SccLocalPath1 = AzureMLDemo
+	EndGlobalSection
+EndGlobal
