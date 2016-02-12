@@ -6,4 +6,4 @@
 4. Покомандно изучить скрипт DemoScript.sql
 
 Пример команды:
-“C:\Program Files (x86)\Microsoft SQL Server\110\DAC\bin\sqlpackage.exe” /a:Import /sf:C:\Data\AdventureWorksLT.bacpac /tsn:mysqlserver.database.windows.net /tdn:DemoDB /tu:sysadmin@cgrd7z8kac /tp:Pa55w0rd
+“C:\Program Files (x86)\Microsoft SQL Server\130\DAC\bin\sqlpackage.exe” /a:Import /sf:C:\Data\AdventureWorksLT.bacpac /tsn:mysqlserver.database.windows.net /tdn:DemoDB /tu:sysadmin@cgrd7z8kac /tp:Pa55w0rd
