@@ -101,8 +101,8 @@ namespace LuisTalk.ViewModels
                     return;
                 }
 
-                var text = await PoorManDependencyResolver.SpellCheckerApi.CorrectAsync(InputText);
-                SendText(text, SenderSide.Local);
+                //var text = await PoorManDependencyResolver.SpellCheckerApi.CorrectAsync(InputText);
+                SendText(InputText, SenderSide.Local);
                 InputText = String.Empty;
 
                 var response = await _dialogManager.Process(text);
