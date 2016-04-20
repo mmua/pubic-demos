@@ -13,6 +13,7 @@ namespace OxfordChat.Client
         public DateTimeOffset Time { get; set; }
         public string Text { get; set; }
         public long TimeStamp { get; set; }
+        public double? Sentiment { get; set; }
 
         [JsonIgnore]
         public bool SendByMe { get; set; }
