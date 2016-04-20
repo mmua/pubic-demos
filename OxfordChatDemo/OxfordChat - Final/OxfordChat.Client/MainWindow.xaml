@@ -11,6 +11,7 @@
     <Window.Resources>
         <inf:BoolToAlignmentConverter x:Key="AlignmentConverter"/>
         <inf:DateTimeOffsetToStringConverter x:Key="DateTimeOffsetConverter"/>
+        <inf:SentimentToColorConverter x:Key="SentimentConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -29,7 +30,7 @@
             <ItemsControl x:Name="ChatItemsControl" ItemsSource="{Binding Messages, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Mode=OneWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="300" Background="Azure" Margin="5 10" HorizontalAlignment="{Binding SendByMe, Converter={StaticResource AlignmentConverter}}" MouseRightButtonDown="ChatElement_MouseDown" >
+                        <Grid Width="300" Background="{Binding Sentiment, Converter={StaticResource SentimentConverter}}" Margin="5 10" HorizontalAlignment="{Binding SendByMe, Converter={StaticResource AlignmentConverter}}" MouseRightButtonDown="ChatElement_MouseDown" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>

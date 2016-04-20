@@ -16,7 +16,8 @@ namespace OxfordChat.Client.Services
 {
     public class OxfordChatClient
     {
-        private string baseUri = @"http://oxfordchatapi.azurewebsites.net/api/Messages";
+        private string baseUri =  @"http://oxfordchatapi.azurewebsites.net/api/Messages";
+        private TextAnalyticsClient _textAnalyticsClient = new TextAnalyticsClient(@"400878dfced943b5baabd3f798110ddf");
 
         public async Task<IEnumerable<Message>> GetMessagesAsync(long? fromTimeStamp = null)
         {
@@ -34,7 +35,8 @@ namespace OxfordChat.Client.Services
             {
                 Time = DateTimeOffset.Now,
                 Sender = sender,
-                Text = text
+                Text = text,
+                Sentiment = await _textAnalyticsClient.GetSentimentAsync(text)
             };
 
             await baseUri.PostJsonAsync(message);

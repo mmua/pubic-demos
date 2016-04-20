@@ -116,6 +116,7 @@
     <Compile Include="Infrastructure\FlurlExtensions.cs" />
     <Compile Include="Services\OxfordChatClient.cs" />
     <Compile Include="Services\SpeechClient.cs" />
+    <Compile Include="Services\TextAnalyticsClient.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

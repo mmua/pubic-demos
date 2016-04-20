@@ -125,3 +125,9 @@ namespace OxfordChat.Client.Services
                 RecordButtonText = "Record";
             });
         }
+
+// Oxford Chat Client
+        private TextAnalyticsClient _textAnalyticsClient = new TextAnalyticsClient(@"400878dfced943b5baabd3f798110ddf");
+
+        // SendMessageAsync
+                Sentiment = await _textAnalyticsClient.GetSentimentAsync(text)
