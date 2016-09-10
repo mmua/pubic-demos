@@ -6,7 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Connector;
+using System.Globalization;
+using WeatherBotDemo.BingTranslator;
+using WeatherBotDemo.Extensions;
 
 namespace WeatherBotDemo.Dialogs
 {
@@ -19,7 +24,7 @@ namespace WeatherBotDemo.Dialogs
         {
             var message = "Sorry, I couldn't understand you";
 
-            await context.PostAsync(message);
+            await context.PostAsync(message, "en-US");
 
             context.Wait(MessageReceived);
         }
@@ -27,12 +32,24 @@ namespace WeatherBotDemo.Dialogs
         [LuisIntent("GetHelp")]
         public async Task ProcessGetHelp(IDialogContext context, LuisResult result)
         {
-            var message = "I'm a simple weather bot. Here are some examples of things you can ask me about: \n\n" +
+            string message;
+            //if (Thread.CurrentThread.CurrentCulture.Name == "ru-RU")
+            //{
+            //    message = "Я - простой погодный бот. Примеры запросов: \n\n" +
+            //                  "\"Какая сегодня погода в Москве?\" \n\n" +
+            //                  "\"Что с температурой?\" \n\n" +
+            //                  "или просто скажите \"Привет\" или \"Спасибо\"";
+            //    await context.PostAsync(message, "ru-RU");
+            //}
+            //else
+            //{
+                message = "I'm a simple weather bot. Here are some examples of things you can ask me about: \n\n" +
                           "\"What is the weather like in Moscow today?\" \n\n" +
                           "\"Any news about temperature today?\" \n\n" +
                           "or just tell me \"Hello\" or \"Thank you\"";
-
-            await context.PostAsync(message);
+                await context.PostAsync(message, "en-US");
+            //    await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
+            //}
 
             context.Wait(MessageReceived);
         }
@@ -40,6 +57,8 @@ namespace WeatherBotDemo.Dialogs
         [LuisIntent("Hello")]
         public async Task ProcessHello(IDialogContext context, LuisResult result)
         {
+            var c = Thread.CurrentThread.CurrentCulture;
+
             var messages = new string[]
             {
                 "Hello!",
@@ -49,7 +68,8 @@ namespace WeatherBotDemo.Dialogs
             };
 
             var message = messages[(new Random()).Next(messages.Count() - 1)];
-            await context.PostAsync(message);
+            await context.PostAsync(message, "en-US");
+            //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
 
             context.Wait(MessageReceived);
         }
@@ -61,12 +81,12 @@ namespace WeatherBotDemo.Dialogs
             {
                 "Never mind",
                 "You are welcome!",
-                "I'm here to serve",
                 "Happy to be useful"
             };
 
             var message = messages[(new Random()).Next(messages.Count() - 1)];
-            await context.PostAsync(message);
+            await context.PostAsync(message, "en-US");
+            //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
 
             context.Wait(MessageReceived);
         }
@@ -94,8 +114,8 @@ namespace WeatherBotDemo.Dialogs
                 parameter = entityContainer.Entity;
             }
 
-            var client = new WeatherClient("88597cb7a556c191905de0f52f23d7d6");
-            var forecastArray = await client.Forecast(location);
+            var weatherClient = new WeatherClient("88597cb7a556c191905de0f52f23d7d6");
+            var forecastArray = await weatherClient.Forecast(location);
             var forecast = forecastArray.SingleOrDefault(f => f.When.Date == date.Date);
 
             string message;
@@ -108,9 +128,33 @@ namespace WeatherBotDemo.Dialogs
             }
             else { message = "Sorry! I was not able to get the forecast."; }
 
-            await context.PostAsync(message);
+            await context.PostAsync(message, "en-US");
+            //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
 
             context.Wait(MessageReceived);
         }
-    }
+
+    //    protected override async Task<string> GetLuisQueryTextAsync(IDialogContext context, IMessageActivity message)
+    //    {
+    //        // return Task.FromResult(message.Text); // in source code
+
+    //        var baseLuisText = await base.GetLuisQueryTextAsync(context, message);
+
+    //        if (message.Locale != null && message.Locale != "en-US")
+    //        {
+    //            try
+    //            {
+    //                var bingTranslatorClient = new BingTranslatorClient("Test187871", "dAnT3r/eIc8KedBRUgRCV+juxpf4Wl312jn1Bd2SXzk=");
+    //                return await bingTranslatorClient.Translate(baseLuisText, message.Locale, "en-US");
+
+    //            }
+    //            catch (Exception)
+    //            {
+    //                return null;
+    //            }
+    //        }
+
+    //        return baseLuisText;
+    //    }
+    //}
 }
