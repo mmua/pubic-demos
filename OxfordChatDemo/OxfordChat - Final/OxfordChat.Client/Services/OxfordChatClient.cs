@@ -16,8 +16,8 @@ namespace OxfordChat.Client.Services
 {
     public class OxfordChatClient
     {
-        private string baseUri =  @"http://oxfordchatapi.azurewebsites.net/api/Messages";
-        private TextAnalyticsClient _textAnalyticsClient = new TextAnalyticsClient(@"400878dfced943b5baabd3f798110ddf");
+        private string baseUri =  @"http://oc-api.azurewebsites.net/api/Messages";
+        private TextAnalyticsClient _textAnalyticsClient = new TextAnalyticsClient(@"2d352d1003a24c989c985f01b8601f53");
 
         public async Task<IEnumerable<Message>> GetMessagesAsync(long? fromTimeStamp = null)
         {

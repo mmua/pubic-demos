@@ -82,7 +82,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SpeechClient, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Microsoft.ProjectOxford.SpeechRecognition-x64.0.4.10.1\lib\SpeechClient.dll</HintPath>
+      <HintPath>..\packages\Microsoft.ProjectOxford.SpeechRecognition-x64.0.4.10.2\lib\SpeechClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

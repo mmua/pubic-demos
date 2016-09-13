@@ -28,9 +28,9 @@ namespace OxfordChat.Client
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private OxfordChatClient _oxfordChatService = new OxfordChatClient();
-        private SpellCheckClient _spellCheckClient = new SpellCheckClient(@"af1f8dd1ccc442aaa7de91b102828843");
-        private MicrophoneRecognitionClient micRecognitionClient = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.ShortPhrase, "en-us", @"776604752d634792bfd0d82b1933e487", @"378fa70ab6644baf8a63ac8b323ebb2d");
-        private SpeechClient _speechClient = new SpeechClient(@"776604752d634792bfd0d82b1933e487", @"776604752d634792bfd0d82b1933e487");
+        private SpellCheckClient _spellCheckClient = new SpellCheckClient(@"3d00390fed99471eb7c32adafe5b8830");
+        private MicrophoneRecognitionClient micRecognitionClient = SpeechRecognitionServiceFactory.CreateMicrophoneClient(SpeechRecognitionMode.ShortPhrase, "en-us", @"41b45bdcc78c42c4a297279084d2b217", @"41b45bdcc78c42c4a297279084d2b217");
+        private SpeechClient _speechClient = new SpeechClient(@"41b45bdcc78c42c4a297279084d2b217", @"807f25315734429087d4507f7ebf25f7");
 
         private long? _lastTimeStamp;
         private System.Timers.Timer _timer;

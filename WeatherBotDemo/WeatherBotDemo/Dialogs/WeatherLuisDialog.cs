@@ -33,23 +33,23 @@ namespace WeatherBotDemo.Dialogs
         public async Task ProcessGetHelp(IDialogContext context, LuisResult result)
         {
             string message;
-            //if (Thread.CurrentThread.CurrentCulture.Name == "ru-RU")
-            //{
-            //    message = "Я - простой погодный бот. Примеры запросов: \n\n" +
-            //                  "\"Какая сегодня погода в Москве?\" \n\n" +
-            //                  "\"Что с температурой?\" \n\n" +
-            //                  "или просто скажите \"Привет\" или \"Спасибо\"";
-            //    await context.PostAsync(message, "ru-RU");
-            //}
-            //else
-            //{
+            if (Thread.CurrentThread.CurrentCulture.Name == "ru-RU")
+            {
+                message = "Я - простой погодный бот. Примеры запросов: \n\n" +
+                              "\"Какая сегодня погода в Москве?\" \n\n" +
+                              "\"Что с температурой?\" \n\n" +
+                              "или просто скажите \"Привет\" или \"Спасибо\"";
+                await context.PostAsync(message, "ru-RU");
+            }
+            else
+            {
                 message = "I'm a simple weather bot. Here are some examples of things you can ask me about: \n\n" +
                           "\"What is the weather like in Moscow today?\" \n\n" +
                           "\"Any news about temperature today?\" \n\n" +
                           "or just tell me \"Hello\" or \"Thank you\"";
-                await context.PostAsync(message, "en-US");
-            //    await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
-            //}
+            //    await context.PostAsync(message, "en-US");
+                await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
+            }
 
             context.Wait(MessageReceived);
         }
@@ -68,8 +68,8 @@ namespace WeatherBotDemo.Dialogs
             };
 
             var message = messages[(new Random()).Next(messages.Count() - 1)];
-            await context.PostAsync(message, "en-US");
-            //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
+            //await context.PostAsync(message, "en-US");
+            await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
 
             context.Wait(MessageReceived);
         }
@@ -85,8 +85,8 @@ namespace WeatherBotDemo.Dialogs
             };
 
             var message = messages[(new Random()).Next(messages.Count() - 1)];
-            await context.PostAsync(message, "en-US");
-            //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
+            //await context.PostAsync(message, "en-US");
+            await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
 
             context.Wait(MessageReceived);
         }
@@ -128,33 +128,33 @@ namespace WeatherBotDemo.Dialogs
             }
             else { message = "Sorry! I was not able to get the forecast."; }
 
-            await context.PostAsync(message, "en-US");
-            //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
+            //await context.PostAsync(message, "en-US");
+            await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
 
             context.Wait(MessageReceived);
         }
 
-    //    protected override async Task<string> GetLuisQueryTextAsync(IDialogContext context, IMessageActivity message)
-    //    {
-    //        // return Task.FromResult(message.Text); // in source code
+        protected override async Task<string> GetLuisQueryTextAsync(IDialogContext context, IMessageActivity message)
+        {
+            // return Task.FromResult(message.Text); // in source code
 
-    //        var baseLuisText = await base.GetLuisQueryTextAsync(context, message);
+            var baseLuisText = await base.GetLuisQueryTextAsync(context, message);
 
-    //        if (message.Locale != null && message.Locale != "en-US")
-    //        {
-    //            try
-    //            {
-    //                var bingTranslatorClient = new BingTranslatorClient("Test187871", "dAnT3r/eIc8KedBRUgRCV+juxpf4Wl312jn1Bd2SXzk=");
-    //                return await bingTranslatorClient.Translate(baseLuisText, message.Locale, "en-US");
+            if (message.Locale != null && message.Locale != "en-US")
+            {
+                try
+                {
+                    var bingTranslatorClient = new BingTranslatorClient("Test187871", "dAnT3r/eIc8KedBRUgRCV+juxpf4Wl312jn1Bd2SXzk=");
+                    return await bingTranslatorClient.Translate(baseLuisText, message.Locale, "en-US");
 
-    //            }
-    //            catch (Exception)
-    //            {
-    //                return null;
-    //            }
-    //        }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
 
-    //        return baseLuisText;
-    //    }
-    //}
+            return baseLuisText;
+        }
+    }
 }

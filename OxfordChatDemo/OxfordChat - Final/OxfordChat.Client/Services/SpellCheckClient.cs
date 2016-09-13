@@ -10,7 +10,7 @@ namespace OxfordChat.Client.Services
 {
     public class SpellCheckClient
     {
-        private string _baseUri = @"https://bingapis.azure-api.net/api/v5/spellcheck";
+        private string _baseUri = @"https://api.cognitive.microsoft.com/bing/v5.0/spellcheck/";
         private string _subscriptionKey;
 
         public SpellCheckClient(string subscriptionKey)
@@ -22,9 +22,9 @@ namespace OxfordChat.Client.Services
         {
             var response = await _baseUri
                 .SetQueryParam("mode", "proof")
+                .SetQueryParam("text", text)
                 .WithHeader("Ocp-Apim-Subscription-Key", _subscriptionKey)
-                .PostUrlEncodedAsync(new { Text = text })
-                .ReceiveJson();
+                .GetJsonAsync();
 
             foreach(var t in response?.flaggedTokens)
             {
