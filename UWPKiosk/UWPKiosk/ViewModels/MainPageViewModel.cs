@@ -25,7 +25,10 @@ namespace UWPKiosk.ViewModels
     public class MainPageViewModel : ViewModelBase
     {
         private FaceServiceClient _faceClient = new FaceServiceClient("82d432b90f684eebbd03f2015265d286");
-        private IPageRecommender _recommender = new SimplePageRecommender();
+        private ISpeechPlayer _player = new SpeechPlayer();
+        //private ISpeechSynthesizer _speechSynthesizer = new LocalSpeechSythesizer();
+        private ISpeechSynthesizer _speechSynthesizer = new CognitiveSpeechSynthesizer(@"41b45bdcc78c42c4a297279084d2b217", @"807f25315734429087d4507f7ebf25f7");
+        private IProductRecommender _recommender = new SimpleProductRecommender();
 
         private SoftwareBitmapSource _photo = null;
         public SoftwareBitmapSource Photo
@@ -68,8 +71,12 @@ namespace UWPKiosk.ViewModels
             get { return _selectedFace; }
             set
             {
-                Set(() => SelectedFace, ref _selectedFace, value);
-                Uri = _recommender.GetRecommendedUri((FaceViewModel)value);
+                if(Set(() => SelectedFace, ref _selectedFace, value))
+                {
+                    var recommendation = _recommender.GetRecommendedUri((FaceViewModel)value);
+                    Uri = recommendation.ProductUrl;
+                    PlayText(recommendation.GreetingText, recommendation.GreetingLanguage);
+                }
             }
         }
 
@@ -151,6 +158,16 @@ namespace UWPKiosk.ViewModels
             captureUI.PhotoSettings.CroppedSizeInPixels = new Size(500, 500);
 
             return await captureUI.CaptureFileAsync(CameraCaptureUIMode.Photo);
+        }
+
+        private async Task PlayText(string text, string language)
+        {
+            var speech = await _speechSynthesizer.SythesizeAsync(text, language);
+
+            if (speech != null)
+            {
+                await _player.PlayAsync(speech, _speechSynthesizer.ContentType);
+            }
         }
     }
 }

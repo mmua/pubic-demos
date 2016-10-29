@@ -104,8 +104,13 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IPageRecommender.cs" />
-    <Compile Include="Services\SimplePageRecommender.cs" />
+    <Compile Include="Services\IProductRecommender.cs" />
+    <Compile Include="Services\ISpeechPlayer.cs" />
+    <Compile Include="Services\ISpeechSynthesizer.cs" />
+    <Compile Include="Services\LocalSpeechSythesizer.cs" />
+    <Compile Include="Services\SimpleProductRecommender.cs" />
+    <Compile Include="Services\CognitiveSpeechSyntesizer.cs" />
+    <Compile Include="Services\SpeechPlayer.cs" />
     <Compile Include="ViewModels\FaceViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
   </ItemGroup>
