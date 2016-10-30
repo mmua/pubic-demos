@@ -71,7 +71,7 @@
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,10">
             <TextBlock Text="Choose a photo..." TextWrapping="WrapWholeWords" Style="{ThemeResource BodyTextBlockStyle}"  VerticalAlignment="Bottom" Margin="5"/>
             <Button HorizontalAlignment="Stretch" Content="Using camera" Command="{x:Bind ViewModel.TakePhotoCommand, Mode=OneTime}" CommandParameter="capture" Margin="5" Height="70"/>
-            <Button HorizontalAlignment="Stretch" Content="From library" Command="{x:Bind ViewModel.TakePhotoCommand, Mode=OneTime}" CommandParameter="library" Margin="5" Height="70"/>
+            <Button HorizontalAlignment="Stretch" Content="Use sample" Command="{x:Bind ViewModel.TakePhotoCommand, Mode=OneTime}" CommandParameter="sample" Margin="5" Height="70"/>
         </StackPanel>
     </Grid>
 </Page>

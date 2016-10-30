@@ -71,7 +71,7 @@ namespace UWPKiosk.ViewModels
             get { return _selectedFace; }
             set
             {
-                if(Set(() => SelectedFace, ref _selectedFace, value))
+                if (Set(() => SelectedFace, ref _selectedFace, value))
                 {
                     var recommendation = _recommender.GetRecommendedUri((FaceViewModel)value);
                     Uri = recommendation.ProductUrl;
@@ -93,8 +93,8 @@ namespace UWPKiosk.ViewModels
                     case "capture":
                         photo = await CapturePhoto();
                         break;
-                    case "library":
-                        photo = await PickPhoto();
+                    case "sample":
+                        photo = await UseSample();
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(operationType), "Unknown value: " + (operationType ?? "NULL"));
@@ -140,15 +140,9 @@ namespace UWPKiosk.ViewModels
             return bitmapSource;
         }
 
-        private static async Task<StorageFile> PickPhoto()
+        private static async Task<StorageFile> UseSample()
         {
-            var filePicker = new FileOpenPicker();
-            filePicker.FileTypeFilter.Add(".jpg");
-            filePicker.ViewMode = PickerViewMode.Thumbnail;
-            filePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            filePicker.CommitButtonText = "Choose";
-
-            return await filePicker.PickSingleFileAsync();
+            return await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"Assets\Sample1.jpg");
         }
 
         private static async Task<StorageFile> CapturePhoto()

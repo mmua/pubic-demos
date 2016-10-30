@@ -17,11 +17,11 @@ namespace UWPKiosk.Services
                 if (face.Age >= 0 && face.Age < 17)
                     return XboxOne;
                 else if (face.Age < 23 && face.Gender == "female")
-                    return Office365;
-                else if (face.Age < 23 && face.Gender == "male")
-                    return Lumia950;
-                else if (face.Age < 30)
                     return SurfacePro;
+                else if (face.Age < 23 && face.Gender == "male")
+                    return Office365;
+                else if (face.Age < 30)
+                    return Lumia950;
                 else if (face.Age < 40)
                     return SurfaceBook;
                 else
