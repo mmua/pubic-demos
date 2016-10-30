@@ -121,7 +121,11 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Dialogs\Forms\SimpleFormWeatherDialog.cs" />
+    <Compile Include="Dialogs\Forms\ComplexWeatherForm.cs" />
+    <Compile Include="Dialogs\Forms\SimpleWeatherForm.cs" />
+    <Compile Include="Dialogs\RateUsDialog.cs" />
+    <Compile Include="Dialogs\WeatherLuisDialog.cs" />
+    <Compile Include="Extensions\IBotToUserExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

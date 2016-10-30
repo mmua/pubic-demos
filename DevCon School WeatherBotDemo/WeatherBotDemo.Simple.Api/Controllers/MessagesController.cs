@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using WeatherBotDemo.Services.OpenWeatherMap;
 using System.Threading;
 
-namespace WeatherBotDemo.Api
+namespace WeatherBotDemo.Simple.Api
 {
     [BotAuthentication]
     public class MessagesController : ApiController

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using WeatherBotDemo.Api.Dialogs.Forms;
+using WeatherBotDemo.Api.Dialogs;
 
 namespace WeatherBotDemo.Api
 {
@@ -25,7 +26,7 @@ namespace WeatherBotDemo.Api
             if (activity.Type == ActivityTypes.Message)
             {
                 ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-                await Conversation.SendAsync(activity, () => FormDialog.FromForm(SimpleFormWeatherDialog.BuildForm));
+                await Conversation.SendAsync(activity, MakeRootDialog);
             }
             else
             {
@@ -33,6 +34,15 @@ namespace WeatherBotDemo.Api
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
+        }
+
+        internal static IDialog<object> MakeRootDialog()
+        {
+            //return Chain.From(() => FormDialog.FromForm(ComplexWeatherForm.BuildForm))
+            //    .Do((c, r) => c.PostAsync("Thank you for using Simple Weather Bot!", "en-US"))
+            //    .ContinueWith<ComplexWeatherForm, object>((c, r) => Task.FromResult<IDialog<object>>(new RateUsDialog()));
+
+            return Chain.From(() => new WeatherLuisDialog());
         }
 
         private Activity HandleSystemMessage(Activity message)

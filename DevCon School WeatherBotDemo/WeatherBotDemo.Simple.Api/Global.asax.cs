@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 
-namespace WeatherBotDemo.Api
+namespace WeatherBotDemo.Simple.Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

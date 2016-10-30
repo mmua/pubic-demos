@@ -11,23 +11,23 @@ using Microsoft.Bot.Connector;
 namespace WeatherBotDemo.Api.Dialogs.Forms
 {
     [Serializable]
-    public class SimpleFormWeatherDialog
+    public class SimpleWeatherForm
     {
         public string City { get; set; }
         public DateTime Date { get; set; }
-        public ParameterOptions Parameter { get; set; }
+        public ComplexParameterOptions Parameter { get; set; }
 
-        public static IForm<SimpleFormWeatherDialog> BuildForm()
+        public static IForm<SimpleWeatherForm> BuildForm()
         {
-            return new FormBuilder<SimpleFormWeatherDialog>()
+            return new FormBuilder<SimpleWeatherForm>()
                 .Message("Welcome to the simple weather bot. Let's clarify some options")
                 .OnCompletion(CompleteDialog)
                 .Build();
         }
 
-        private static async Task CompleteDialog(IDialogContext context, SimpleFormWeatherDialog state)
+        private static async Task CompleteDialog(IDialogContext context, SimpleWeatherForm state)
         {
-            await context.PostAsync("Wait a sec. Thinking...");
+            await context.PostAsync("Wait a sec. Thinking...", "en-US");
 
             var typing = context.MakeMessage();
             typing.Type = ActivityTypes.Typing;
@@ -42,9 +42,9 @@ namespace WeatherBotDemo.Api.Dialogs.Forms
 
                 if (forecast != null)
                 {
-                    if (state.Parameter == ParameterOptions.Humidity) { message = $"The humidity on {forecast.ShortDate} in {forecast.City} is {forecast.Humidity}\r\n"; }
-                    else if (state.Parameter == ParameterOptions.Pressure) { message = $"The pressure on {forecast.ShortDate} in {forecast.City} is {forecast.Pressure}\r\n"; }
-                    else if (state.Parameter == ParameterOptions.Temperature) { message = $"The temperature on {forecast.ShortDate} in {forecast.City} is {forecast.Temp}\r\n"; }
+                    if (state.Parameter == ComplexParameterOptions.Humidity) { message = $"The humidity on {forecast.ShortDate} in {forecast.City} is {forecast.Humidity}\r\n"; }
+                    else if (state.Parameter == ComplexParameterOptions.Pressure) { message = $"The pressure on {forecast.ShortDate} in {forecast.City} is {forecast.Pressure}\r\n"; }
+                    else if (state.Parameter == ComplexParameterOptions.Temperature) { message = $"The temperature on {forecast.ShortDate} in {forecast.City} is {forecast.Temp}\r\n"; }
                     else { message = "Sorry, unknown parameter \"{parameter}\" requested... Try again"; }
                 }
                 else { message = "Sorry! I was not able to get the forecast."; }
@@ -54,12 +54,12 @@ namespace WeatherBotDemo.Api.Dialogs.Forms
                 message = $"Sorry! I was not able to get the forecast.";
             }
 
-            await context.PostAsync(message);
-            context.;
+            await context.PostAsync(message, "en-US");
+            context.Done<object>(null);
         }
     }
 
-    public enum ParameterOptions
+    public enum SimpleParameterOptions
     {
         Temperature = 1,
         Pressure = 2,

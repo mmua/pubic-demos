@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using WeatherBotDemo.BingTranslator;
+using WeatherBotDemo.Services.BingTranslator;
 
-namespace WeatherBotDemo.Extensions
+namespace WeatherBotDemo.Api.Extensions
 {
     public static class IBotToUserExtensions
     {

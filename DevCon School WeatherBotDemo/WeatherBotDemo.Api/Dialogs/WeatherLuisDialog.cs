@@ -1,7 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
-using MSEvangelism.OpenWeatherMap;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +9,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using System.Globalization;
-using WeatherBotDemo.BingTranslator;
-using WeatherBotDemo.Extensions;
+using WeatherBotDemo.Services.BingTranslator;
+using WeatherBotDemo.Api.Extensions;
+using Microsoft.Bot.Builder.FormFlow;
+using WeatherBotDemo.Api.Dialogs.Forms;
 
-namespace WeatherBotDemo.Dialogs
+namespace WeatherBotDemo.Api.Dialogs
 {
     [Serializable]
     [LuisModel("83439f7d-2571-409a-85f7-6e2567cd68e0", "8356c4b9d8a043488ee5122af937f57c")]
@@ -47,8 +48,8 @@ namespace WeatherBotDemo.Dialogs
                       "\"What is the weather like in Moscow today?\" \n\n" +
                       "\"Any news about temperature today?\" \n\n" +
                       "or just tell me \"Hello\" or \"Thank you\"";
-            //await context.PostAsync(message, "en-US");
-                await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
+                await context.PostAsync(message, "en-US");
+                //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
             }
 
             context.Wait(MessageReceived);
@@ -68,8 +69,8 @@ namespace WeatherBotDemo.Dialogs
             };
 
             var message = messages[(new Random()).Next(messages.Count() - 1)];
-            //await context.PostAsync(message, "en-US");
-            await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
+            await context.PostAsync(message, "en-US");
+            //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
 
             context.Wait(MessageReceived);
         }
@@ -85,8 +86,8 @@ namespace WeatherBotDemo.Dialogs
             };
 
             var message = messages[(new Random()).Next(messages.Count() - 1)];
-            //await context.PostAsync(message, "en-US");
-            await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
+            await context.PostAsync(message, "en-US");
+            //await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
 
             context.Wait(MessageReceived);
         }
@@ -94,67 +95,60 @@ namespace WeatherBotDemo.Dialogs
         [LuisIntent("GetWeather")]
         public async Task GetWether(IDialogContext context, LuisResult result)
         {
-            var parameter = "temperature";
-            var location = "Moscow";
-            DateTime date = DateTime.Today.Date;
+            var weatherForm = new ComplexWeatherForm();
 
             EntityRecommendation entityContainer;
             if (result.TryFindEntity("builtin.geography.city", out entityContainer))
             {
-                location = entityContainer.Entity;
+                weatherForm.City = entityContainer.Entity;
             }
 
             if (result.TryFindEntity("builtin.datetime.date", out entityContainer))
             {
-                DateTime.TryParse(entityContainer?.Resolution?.SingleOrDefault().Value, out date);
+                DateTime date;
+                if (DateTime.TryParse(entityContainer?.Resolution?.SingleOrDefault().Value, out date))
+                {
+                    weatherForm.Date = date;
+                }
             }
 
             if (result.TryFindEntity("parameter", out entityContainer))
             {
-                parameter = entityContainer.Entity;
+                ComplexParameterOptions parameter;
+                    weatherForm.Parameter = (ComplexParameterOptions)Enum.Parse(typeof(ComplexParameterOptions), entityContainer.Entity, ignoreCase: true);
             }
 
-            var weatherClient = new WeatherClient("88597cb7a556c191905de0f52f23d7d6");
-            var forecastArray = await weatherClient.Forecast(location);
-            var forecast = forecastArray.SingleOrDefault(f => f.When.Date == date.Date);
-
-            string message;
-            if (forecast != null)
-            {
-                if (parameter.Contains("humid")) { message = $"The humidity on {forecast.Date} in {location} is {forecast.Humidity}\r\n"; }
-                else if (parameter.Contains("pres")) { message = $"The pressure on {forecast.Date} in {location} is {forecast.Pressure}\r\n"; }
-                else if (parameter.Contains("temp")) { message = $"The temperature on {forecast.Date} in {location} is {forecast.Temp}\r\n"; }
-                else { message = "Sorry, unknown parameter \"{parameter}\" requested... Try again"; }
-            }
-            else { message = "Sorry! I was not able to get the forecast."; }
-
-            //await context.PostAsync(message, "en-US");
-            await context.PostWithTranslationAsync(message, "en-US", Thread.CurrentThread.CurrentCulture.Name);
-
-            context.Wait(MessageReceived);
+            var formDialog = new FormDialog<ComplexWeatherForm>(weatherForm, ComplexWeatherForm.BuildForm, FormOptions.PromptInStart, result.Entities);
+            context.Call(formDialog, WeatherFormCompled);
         }
 
-        protected override async Task<string> GetLuisQueryTextAsync(IDialogContext context, IMessageActivity message)
+        private async Task WeatherFormCompled(IDialogContext context, IAwaitable<ComplexWeatherForm> result)
         {
-            // return Task.FromResult(message.Text); // in source code
-
-            var baseLuisText = await base.GetLuisQueryTextAsync(context, message);
-
-            if (message.Locale != null && message.Locale != "en-US")
-            {
-                try
-                {
-                    var bingTranslatorClient = new BingTranslatorClient("Test187871", "dAnT3r/eIc8KedBRUgRCV+juxpf4Wl312jn1Bd2SXzk=");
-                    return await bingTranslatorClient.Translate(baseLuisText, message.Locale, "en-US");
-
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-
-            return baseLuisText;
+            await Task.CompletedTask;
+            context.Done<object>(null);
         }
+
+        //protected override async Task<string> GetLuisQueryTextAsync(IDialogContext context, IMessageActivity message)
+        //{
+        //    // return Task.FromResult(message.Text); // in source code
+
+        //    var baseLuisText = await base.GetLuisQueryTextAsync(context, message);
+
+        //    if (message.Locale != null && message.Locale != "en-US")
+        //    {
+        //        try
+        //        {
+        //            var bingTranslatorClient = new BingTranslatorClient("Test187871", "dAnT3r/eIc8KedBRUgRCV+juxpf4Wl312jn1Bd2SXzk=");
+        //            return await bingTranslatorClient.Translate(baseLuisText, message.Locale, "en-US");
+
+        //        }
+        //        catch (Exception)
+        //        {
+        //            return null;
+        //        }
+        //    }
+
+        //    return baseLuisText;
+        //}
     }
 }
