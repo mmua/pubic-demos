@@ -32,6 +32,7 @@ namespace WeatherBotDemo.Simple.Api
                 //var typing = activity.CreateReply();
                 //typing.Type = ActivityTypes.Typing;
                 //await connector.Conversations.ReplyToActivityAsync(typing);
+                //await Task.Delay(1000);
 
                 try
                 {

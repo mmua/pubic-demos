@@ -27,12 +27,6 @@ namespace WeatherBotDemo.Api.Dialogs.Forms
 
         private static async Task CompleteDialog(IDialogContext context, SimpleWeatherForm state)
         {
-            await context.PostAsync("Wait a sec. Thinking...", "en-US");
-
-            var typing = context.MakeMessage();
-            typing.Type = ActivityTypes.Typing;
-            await context.PostAsync(typing);
-
             var weatherClient = new WeatherClient("88597cb7a556c191905de0f52f23d7d6");
             string message;
             try

@@ -14,7 +14,7 @@ namespace WeatherBotDemo.Api.Dialogs.Forms
     [Template(TemplateUsage.NotUnderstood, "I don't understand \"{0}\".", "Try again, I didn't get \"{0}\".")]
     public class ComplexWeatherForm
     {
-        [Prompt("What {&} do you want?", "What {&}?", "Please, provide a {&}")]
+        [Prompt("What {&} do you want?", "What {&}?")]
         public string City { get; set; }
 
         [Optional]
@@ -41,10 +41,6 @@ namespace WeatherBotDemo.Api.Dialogs.Forms
         private static async Task CompleteDialog(IDialogContext context, ComplexWeatherForm state)
         {
             await context.PostAsync("Wait a sec. Thinking...", "en-US");
-
-            var typing = context.MakeMessage();
-            typing.Type = ActivityTypes.Typing;
-            await context.PostAsync(typing);
 
             var weatherClient = new WeatherClient("88597cb7a556c191905de0f52f23d7d6");
             string message;

@@ -12,7 +12,7 @@ namespace WeatherBotDemo.Api
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            GlobalConfiguration.Configure(BotFrameworkConfig.Register);
+            //GlobalConfiguration.Configure(BotFrameworkConfig.Register);
         }
     }
 }

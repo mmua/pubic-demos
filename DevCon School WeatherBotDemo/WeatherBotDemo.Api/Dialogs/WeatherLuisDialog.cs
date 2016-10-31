@@ -45,10 +45,10 @@ namespace WeatherBotDemo.Api.Dialogs
             //else
             //{
                 message = "I'm a simple weather bot. Here are some examples of things you can ask me about: \n\n" +
-                      "\"What is the weather like in Moscow today?\" \n\n" +
-                      "\"Any news about temperature today?\" \n\n" +
-                      "or just tell me \"Hello\" or \"Thank you\"";
-                await context.PostAsync(message, "en-US");
+                  "\"What is the weather like in Moscow today?\" \n\n" +
+                  "\"Any news about temperature today?\" \n\n" +
+                  "or just tell me \"Hello\" or \"Thank you\"";
+            await context.PostAsync(message, "en-US");
             //}
 
             context.Wait(MessageReceived);
@@ -111,11 +111,10 @@ namespace WeatherBotDemo.Api.Dialogs
 
             if (result.TryFindEntity("parameter", out entityContainer))
             {
-                ComplexParameterOptions parameter;
-                    weatherForm.Parameter = (ComplexParameterOptions)Enum.Parse(typeof(ComplexParameterOptions), entityContainer.Entity, ignoreCase: true);
+                weatherForm.Parameter = (ComplexParameterOptions)Enum.Parse(typeof(ComplexParameterOptions), entityContainer.Entity, ignoreCase: true);
             }
 
-            var formDialog = new FormDialog<ComplexWeatherForm>(weatherForm, ComplexWeatherForm.BuildForm, FormOptions.PromptInStart, result.Entities);
+            var formDialog = new FormDialog<ComplexWeatherForm>(weatherForm, ComplexWeatherForm.BuildForm, FormOptions.PromptInStart);
             context.Call(formDialog, WeatherFormCompled);
         }
 

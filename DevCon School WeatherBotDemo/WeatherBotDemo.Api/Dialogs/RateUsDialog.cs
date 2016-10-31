@@ -12,7 +12,7 @@ namespace WeatherBotDemo.Api.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            //await context.Wait(resumeMessage);
+            //await context.Wait<string>(ResumeMessage);
             PromptDialog.Number(context, ProcessRate, "Please rate your experience (from 1 to 5) with this bot, where 1 is the lowest.", "Didn't get that, please retry", 3);
         }
 

@@ -26,7 +26,7 @@ namespace WeatherBotDemo.Api
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                if (await ApplyUserLanguage(activity))
+                //if (await ApplyUserLanguage(activity))
                     await Conversation.SendAsync(activity, MakeRootDialog);
             }
             else
@@ -37,35 +37,15 @@ namespace WeatherBotDemo.Api
             return response;
         }
 
-        private const string LanguageCommandPattern = @"^\s*[/\\]lang\s+(?<locale>\w{2}(-\w{2})?)\s*$";
-        private async Task<bool> ApplyUserLanguage(IMessageActivity message)
-        {
-            var botState = new StateClient(new Uri(message.ServiceUrl)).BotState;
-            var userData = await botState.GetUserDataAsync(message.ChannelId, message.From.Id);
-
-            var match = Regex.Match(message.Text, LanguageCommandPattern, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
-            if (match.Success)
-            {
-                var locale = match.Groups["locale"].Value;
-                userData.SetProperty("userLocale", locale);
-                await botState.SetUserDataAsync(message.ChannelId, message.From.Id, userData);
-                return false;
-            }
-
-            var savedLocale = userData.GetProperty<string>("userLocale");
-            if (savedLocale != null)
-                message.Locale = savedLocale;
-
-            return true;
-        }
-
         internal static IDialog<object> MakeRootDialog()
         {
+            return Chain.From(() => FormDialog.FromForm(SimpleWeatherForm.BuildForm));
+
             //return Chain.From(() => FormDialog.FromForm(ComplexWeatherForm.BuildForm))
             //    .Do((c, r) => c.PostAsync("Thank you for using Simple Weather Bot!", "en-US"))
             //    .ContinueWith<ComplexWeatherForm, object>((c, r) => Task.FromResult<IDialog<object>>(new RateUsDialog()));
 
-            return Chain.From(() => new WeatherLuisDialog());
+            //return Chain.From(() => new WeatherLuisDialog());
         }
 
         private Activity HandleSystemMessage(Activity message)
@@ -95,6 +75,28 @@ namespace WeatherBotDemo.Api
             }
 
             return null;
+        }
+
+        private const string LanguageCommandPattern = @"^\s*[/\\]lang\s+(?<locale>\w{2}(-\w{2})?)\s*$";
+        private async Task<bool> ApplyUserLanguage(IMessageActivity message)
+        {
+            var botState = new StateClient(new Uri(message.ServiceUrl)).BotState;
+            var userData = await botState.GetUserDataAsync(message.ChannelId, message.From.Id);
+
+            var match = Regex.Match(message.Text, LanguageCommandPattern, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
+            if (match.Success)
+            {
+                var locale = match.Groups["locale"].Value;
+                userData.SetProperty("userLocale", locale);
+                await botState.SetUserDataAsync(message.ChannelId, message.From.Id, userData);
+                return false;
+            }
+
+            var savedLocale = userData.GetProperty<string>("userLocale");
+            if (savedLocale != null)
+                message.Locale = savedLocale;
+
+            return true;
         }
     }
 }
