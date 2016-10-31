@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using WeatherBotDemo.Api.Dialogs.Forms;
 using WeatherBotDemo.Api.Dialogs;
+using System.Text.RegularExpressions;
 
 namespace WeatherBotDemo.Api
 {
@@ -25,8 +26,8 @@ namespace WeatherBotDemo.Api
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-                await Conversation.SendAsync(activity, MakeRootDialog);
+                if (await ApplyUserLanguage(activity))
+                    await Conversation.SendAsync(activity, MakeRootDialog);
             }
             else
             {
@@ -34,6 +35,28 @@ namespace WeatherBotDemo.Api
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
+        }
+
+        private const string LanguageCommandPattern = @"^\s*[/\\]lang\s+(?<locale>\w{2}(-\w{2})?)\s*$";
+        private async Task<bool> ApplyUserLanguage(IMessageActivity message)
+        {
+            var botState = new StateClient(new Uri(message.ServiceUrl)).BotState;
+            var userData = await botState.GetUserDataAsync(message.ChannelId, message.From.Id);
+
+            var match = Regex.Match(message.Text, LanguageCommandPattern, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
+            if (match.Success)
+            {
+                var locale = match.Groups["locale"].Value;
+                userData.SetProperty("userLocale", locale);
+                await botState.SetUserDataAsync(message.ChannelId, message.From.Id, userData);
+                return false;
+            }
+
+            var savedLocale = userData.GetProperty<string>("userLocale");
+            if (savedLocale != null)
+                message.Locale = savedLocale;
+
+            return true;
         }
 
         internal static IDialog<object> MakeRootDialog()

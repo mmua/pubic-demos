@@ -119,13 +119,16 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BotFrameworkConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\Forms\ComplexWeatherForm.cs" />
     <Compile Include="Dialogs\Forms\SimpleWeatherForm.cs" />
     <Compile Include="Dialogs\RateUsDialog.cs" />
     <Compile Include="Dialogs\WeatherLuisDialog.cs" />
-    <Compile Include="Extensions\IBotToUserExtensions.cs" />
+    <Compile Include="Extensions\ITranslatorExtension.cs" />
+    <Compile Include="Extensions\TranslatedLogBotToUser.cs" />
+    <Compile Include="Extensions\TranslatedPostToBot.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -133,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\wbd-api - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

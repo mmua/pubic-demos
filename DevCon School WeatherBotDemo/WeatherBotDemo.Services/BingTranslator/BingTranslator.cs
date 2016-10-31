@@ -8,7 +8,7 @@ using System.Web;
 
 namespace WeatherBotDemo.Services.BingTranslator
 {
-    public class BingTranslatorClient
+    public class BingTranslatorClient : ITranslator
     {
         private string _clientId;
         private string _secret;

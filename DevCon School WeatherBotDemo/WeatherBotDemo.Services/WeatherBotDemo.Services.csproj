@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BingTranslator\AdmAccessToken.cs" />
     <Compile Include="BingTranslator\BingTranslator.cs" />
+    <Compile Include="BingTranslator\ITranslator.cs" />
     <Compile Include="OpenWeatherMap\WeatherClient.cs" />
     <Compile Include="OpenWeatherMap\WeatherRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
